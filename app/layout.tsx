@@ -24,26 +24,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      appearance={{
-        layout: {
-          socialButtonsVariant: "iconButton",
-        },
-        variables: {
-          colorText: "#fff",
-          colorPrimary: "#0E78F9",
-          colorBackground: "#1C1F2E",
-          colorInputBackground: "#252A41",
-          colorInputText: "#fff",
-        },
-      }}
-    >
-      <html lang="en">
-        <body className={`${inter.className} bg-dark-2`}>
-          {children}
-          <Toaster />
-        </body>
-      </html>
-    </ClerkProvider>
+    // <ClerkProvider
+    //   appearance={{
+    //     layout: {
+    //       socialButtonsVariant: "iconButton",
+    //     },
+    //     variables: {
+    //       colorText: "#fff",
+    //       colorPrimary: "#0E78F9",
+    //       colorBackground: "#1C1F2E",
+    //       colorInputBackground: "#252A41",
+    //       colorInputText: "#fff",
+    //     },
+    //   }}
+    // >
+    <html lang="en">
+      <body className={`${inter.className} bg-dark-2`}>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+    /* </ClerkProvider> */
   );
 }
