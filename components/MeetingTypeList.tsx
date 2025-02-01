@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
 import { Call, useStreamVideoClient } from "@stream-io/video-react-sdk";
 import HomeCard from "./HomeCard";
 import MeetingModal from "./MeetingModal";
@@ -10,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import ReactDatePicker from "react-datepicker";
+import { useUserStore } from "@/state/users";
 
 const MeetingTypeList = () => {
   const router = useRouter();
@@ -23,11 +23,12 @@ const MeetingTypeList = () => {
     link: "",
   });
   const [callDetails, setCallDetails] = useState<Call>();
-  const { user } = useUser();
+  const { isLoggedIn } = useUserStore();
   const client = useStreamVideoClient();
 
   const createMeeting = async () => {
-    if (!client || !user) return;
+    if (!client || !isLoggedIn) return;
+    if (!client) return;
 
     try {
       if (!values.dateTime) {
@@ -85,7 +86,7 @@ const MeetingTypeList = () => {
       />
       <HomeCard
         className={"bg-blue-1"}
-        description={"via invitaton link "}
+        description={"via invitaton link"}
         handleClick={() => setMeetingState("isJoiningMeeting")}
         img={"/icons/join-meeting.svg"}
         title={"Join Meeting"}
@@ -176,7 +177,7 @@ const MeetingTypeList = () => {
         handleClick={() => router.push(values.link)}
       >
         <Input
-          placeholder="MeetingLink"
+          placeholder="Meeting Link"
           className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
           onChange={(e) => setValues({ ...values, link: e.target.value })}
         />

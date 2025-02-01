@@ -1,4 +1,4 @@
-import StreamVideoProvider from "@/provider/StreamClientProvider";
+import AuthProvider from "@/provider/AuthProvider";
 import type { Metadata } from "next";
 import React, { ReactNode } from "react";
 
@@ -11,13 +11,7 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
-  return (
-    <main>
-      {/* <StreamVideoProvider> */}
-      {children}
-      {/* </StreamVideoProvider> */}
-    </main>
-  );
+  return <AuthProvider>{children}</AuthProvider>;
 };
 
 export default RootLayout;
