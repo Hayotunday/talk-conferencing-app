@@ -15,10 +15,10 @@ Instructions on how to install and set up the project.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/yourproject.git
+git clone https://github.com/Hayotunday/talk.git
 
 # Navigate to the project directory
-cd yourproject
+cd talk
 
 # Install dependencies
 npm install
