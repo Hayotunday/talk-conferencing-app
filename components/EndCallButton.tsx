@@ -2,30 +2,31 @@ import { useCall, useCallStateHooks } from "@stream-io/video-react-sdk";
 import React from "react";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+import { MdCallEnd } from "react-icons/md";
 
 const EndCallButton = () => {
-  const call = useCall();
+  // const call = useCall();
   const router = useRouter();
 
-  const { useLocalParticipant } = useCallStateHooks();
-  const localParticipant = useLocalParticipant();
+  // const { useLocalParticipant } = useCallStateHooks();
+  // const localParticipant = useLocalParticipant();
 
-  const isMeetingOwner =
-    localParticipant &&
-    call?.state.createdBy &&
-    localParticipant.userId === call.state.createdBy.id;
+  // const isMeetingOwner =
+  //   localParticipant &&
+  //   call?.state.createdBy &&
+  //   localParticipant.userId === call.state.createdBy.id;
 
-  if (!isMeetingOwner) return null;
+  // if (!isMeetingOwner) return null;
 
   return (
     <Button
       onClick={async () => {
-        await call.endCall();
+        // await call.endCall();
         router.push("/");
       }}
-      className="bg-red-500"
+      className="bg-red-500 cursor-pointer rounded-2xl"
     >
-      End Call for everyone
+      <MdCallEnd size={20} className="text-white" />
     </Button>
   );
 };

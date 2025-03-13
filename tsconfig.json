@@ -32,7 +32,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/api/upload/route.ts"
+    "app/api/upload/route.ts",
+    "lib/socket.ts"
   ],
   "exclude": [
     "node_modules"
