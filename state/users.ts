@@ -20,19 +20,12 @@ type Actions = {
 
 export const useUserStore = create<State & Actions>((set) => ({
   user: {
-    email: "idowudanielayotunde@gmail.com",
-    image:
-      "http://res.cloudinary.com/hayotunday/image/upload/v1737985601/qtfx1jg2u1bxatoizyol.png",
-    userid: "zVyAJLOQQwfcRQHfZon1N2641Pj2",
-    username: "Hayotunday",
+    email: null,
+    image: null,
+    userid: null,
+    username: null,
   },
-  // user: {
-  //   userid: null,
-  //   email: null,
-  //   username: null,
-  //   image: null,
-  // },
-  isLoggedIn: true,
+  isLoggedIn: false,
   update: (data: userInterface) =>
     set((state) => ({ user: { ...state.user, ...data } })),
   login: () => set(() => ({ isLoggedIn: true })),

@@ -1,32 +1,28 @@
 "use client";
 
-import Loader from "@/components/Loader";
 import MeetingRoom from "@/components/MeetingRoom";
 import MeetingSetup from "@/components/MeetingSetup";
-import { useUserStore } from "@/state/users";
-import React, { useState } from "react";
+import MeetingProvider from "@/provider/MeetingProvider";
+import { useSocket } from "@/contexts/SocketContext";
 
-const Meeting = ({ params: { id } }: { params: { id: string } }) => {
-  const {
-    user: { userid },
-    isLoggedIn,
-  } = useUserStore();
-  const [isSetupComplete, setIsSetupComplete] = useState(true);
-  // const { call, isCallLoading } = useGetCallbyId(id);
-
-  if (!isLoggedIn) return <Loader />;
-
-  console.log("id: ", id);
+const MeetingContent = ({ roomId }: { roomId: string }) => {
+  const { isSetupComplete } = useSocket();
 
   return (
     <main className="h-screen w-full">
-      {!isSetupComplete ? (
-        <MeetingSetup setIsSetupComplete={setIsSetupComplete} />
-      ) : (
-        <MeetingRoom roomId={id} userId={userid!} />
-      )}
+      {!isSetupComplete ? <MeetingSetup /> : <MeetingRoom roomId={roomId} />}
     </main>
   );
 };
 
-export default Meeting;
+export default function Meeting({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  return (
+    <MeetingProvider roomId={id}>
+      <MeetingContent roomId={id} />
+    </MeetingProvider>
+  );
+}

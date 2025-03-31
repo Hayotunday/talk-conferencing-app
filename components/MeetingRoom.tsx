@@ -1,25 +1,35 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import socket from "@/lib/socket";
-import Peer from "peerjs";
+import { useSocket } from "@/contexts/SocketContext";
+import VideoParticipant from "./VideoParticipant";
+import Controls from "./Controls";
 
-interface MeetingRoomProps {
-  roomId: string; // room id
-  userId: string; // user id
-}
+export default function MeetingRoom({ roomId }: { roomId: string }) {
+  const { localStream, peers } = useSocket();
 
-export default function VideoCall({ roomId, userId }: MeetingRoomProps) {
-  useEffect(() => {
-    socket.emit("join-room", { roomId, userId });
-  }, [roomId, userId]);
+  console.log("peers: ", peers);
+  const gridClass =
+    peers.length <= 1
+      ? "grid-cols-1"
+      : peers.length <= 4
+      ? "grid-cols-2"
+      : "grid-cols-3";
 
   return (
-    <div className="text-white text-center w-full h-full">
-      <h2 className="w-full">Room: {roomId}</h2>
-      <h2 className="w-full">user: {userId}</h2>
-      {/* <video ref={} autoPlay playsInline></video>
-      <video ref={} autoPlay playsInline></video> */}
+    <div className="flex flex-col h-screen bg-gray-900 text-white">
+      <div className={`flex-grow p-4 grid ${gridClass} gap-4`}>
+        {localStream && (
+          <VideoParticipant stream={localStream} isLocal name="You" />
+        )}
+        {peers.map((peer) => (
+          <VideoParticipant
+            key={peer.userId}
+            stream={peer.stream}
+            name={`User ${peer.userId.slice(0, 4)}`}
+          />
+        ))}
+      </div>
+      <Controls />
     </div>
   );
 }

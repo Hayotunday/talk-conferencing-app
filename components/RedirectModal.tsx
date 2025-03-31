@@ -19,16 +19,16 @@ const RedirectModal = ({ isOpen, redirectPath }: RedirectModalProps) => {
           </p>
         </div>
 
-        <div className="flex flex-row gap-3 justify-center">
+        <div className="flex flex-col gap-3 justify-center items-center">
           <Link
             href={`/signin?redirect=${redirectPath}`}
-            className="text-white rounded-full text-center bg-blue-1 text-xs p-3"
+            className="text-white w-full h-8 flex justify-center items-center text-center rounded bg-blue-1 text-xs"
           >
             Sign In
           </Link>
           <Link
             href={`/signup?redirect=${redirectPath}`}
-            className="text-white rounded-full text-center bg-blue-1 text-xs p-3"
+            className="text-white w-full h-8 flex justify-center items-center text-center rounded bg-blue-1 text-xs"
           >
             Sign Up
           </Link>

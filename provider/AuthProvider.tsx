@@ -2,12 +2,11 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import { useUserStore } from "@/state/users";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import RedirectModal from "@/components/RedirectModal";
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { isLoggedIn } = useUserStore();
-  const [loggedin, setLoggedin] = useState(isLoggedIn);
   const [showRedirect, setShowRedirect] = useState(false);
   const pathname = usePathname();
   const params = useSearchParams();
@@ -18,12 +17,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const encodedUrl = encodeURIComponent(url);
 
   useEffect(() => {
-    if (!loggedin) setShowRedirect(true);
+    if (!isLoggedIn) setShowRedirect(true);
   }, []);
-
-  useEffect(() => {
-    console.log("user : ", user);
-  }, [pathname]);
 
   return (
     <main>

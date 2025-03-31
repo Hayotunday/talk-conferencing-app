@@ -39,3 +39,12 @@ export const avatarImages = [
   "/images/avatar-4.png",
   "/images/avatar-5.png",
 ];
+
+[
+  {
+    userId: "zVyAJLOQQwfcRQHfZon1N2641Pj2",
+    socketId: "SDG_rrJvlLdobhmcAAAR",
+    role: "admin",
+    admitted: true,
+  },
+];

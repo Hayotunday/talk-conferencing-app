@@ -1,14 +1,15 @@
 "use client";
 
-import { auth, db } from "../config";
+import { auth, db } from "@/config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import { getDoc, doc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
-import { userInterface, useUserStore } from "@/state/users";
+import { userInterface } from "@/state/users";
 import { FirebaseError } from "firebase/app";
+import { generateMeetingCode } from "@/lib/utils";
 // import bcrypt from "bcrypt";
 
 // Authentication functions
@@ -17,7 +18,6 @@ const registerWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
-  // const hashedPassword = await bcrypt.hash(password, 10);
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const userResponse = res.user;
@@ -29,6 +29,7 @@ const registerWithEmailAndPassword = async (
       username: name,
       image: "",
       createdAt: Timestamp.fromDate(new Date()),
+      updatedAt: Timestamp.fromDate(new Date()),
     });
     return {
       userInfo: {
@@ -111,6 +112,7 @@ const updateProfile = async (userObj: userInterface) => {
     await updateDoc(userRef, {
       username: userObj.username,
       image: userObj.image || "", // Convert null to empty string
+      updatedAt: Timestamp.fromDate(new Date()),
     });
 
     // Fetch updated document
@@ -162,7 +164,87 @@ const updatePassword = async () => {
   }
 };
 
+// call functions
+const createNewMeeting = async (userid: string) => {
+  if (!userid) {
+    return {
+      success: false,
+      error: "User ID is required",
+    };
+  }
+  try {
+    let meetingId: string;
+    let meetingExists = true;
+
+    do {
+      meetingId = generateMeetingCode();
+      const meetingRef = doc(db, "meeting", meetingId);
+      const meeting = await getDoc(meetingRef);
+      meetingExists = meeting.exists(); // Check if the meeting ID already exists
+
+      if (!meetingExists) {
+        await setDoc(meetingRef, {
+          admin: userid,
+          meetingId,
+          participant: [],
+          createdAt: Timestamp.fromDate(new Date()),
+        });
+
+        break;
+      }
+    } while (meetingExists);
+
+    return {
+      success: true,
+      meetingId,
+    };
+  } catch (error) {
+    console.error("Error while creating meeting:", error);
+    return {
+      success: false,
+      error: error || "An error occurred",
+    };
+  }
+};
+
+const checkIsMeetingAdmin = async (
+  roomId: string,
+  userId: string
+): Promise<boolean> => {
+  if (!userId) {
+    return false;
+  }
+  try {
+    const meetingRef = doc(db, "meeting", roomId);
+    const meetingSnap = await getDoc(meetingRef);
+
+    if (!meetingSnap.exists()) {
+      console.error("Meeting does not exist.");
+      return false;
+    }
+
+    const meetingData = meetingSnap.data(); // Extract the document data
+    const isAdmin = meetingData?.admin === userId;
+
+    const currentParticipants = new Set<string>(meetingData?.participant || []);
+
+    if (!isAdmin && !currentParticipants.has(userId)) {
+      currentParticipants.add(userId); // Add user to set
+      await updateDoc(meetingRef, {
+        participant: Array.from(currentParticipants), // Convert Set back to Array
+      });
+    }
+
+    return isAdmin;
+  } catch (error) {
+    console.error("Error while creating meeting:", error);
+    return false;
+  }
+};
+
 export {
+  checkIsMeetingAdmin,
+  createNewMeeting,
   loginWithEmailAndPassword,
   signout,
   registerWithEmailAndPassword,
