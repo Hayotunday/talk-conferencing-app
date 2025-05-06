@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { sidebarLinks } from "@/constants";
+import { sidebarLinks } from "@/lib/constants";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { useUserStore } from "@/state/users";
+import { useUserStore } from "@/data/users";
 import { signout } from "@/actions/firebase.action";
 
 const Sidebar = () => {

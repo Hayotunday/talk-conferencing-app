@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import ReactDatePicker from "react-datepicker";
-import { useUserStore } from "@/state/users";
+import { useUserStore } from "@/data/users";
 import { createNewMeeting } from "@/actions/firebase.action";
 
 const MeetingTypeList = () => {

@@ -1,4 +1,4 @@
-import AuthProvider from "@/provider/AuthProvider";
+import AuthProvider from "@/contexts/AuthProvider";
 import type { Metadata } from "next";
 import React, { ReactNode } from "react";
 

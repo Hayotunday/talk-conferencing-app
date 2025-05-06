@@ -7,7 +7,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { getDoc, doc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
-import { userInterface } from "@/state/users";
+import { userInterface } from "@/data/users";
 import { FirebaseError } from "firebase/app";
 import { generateMeetingCode } from "@/lib/utils";
 // import bcrypt from "bcrypt";

@@ -30,7 +30,7 @@ Examples of how to use the project.
 
 ```bash
 # Run the project
-npm start
+npm run dev
 ```
 
 ## Contributing

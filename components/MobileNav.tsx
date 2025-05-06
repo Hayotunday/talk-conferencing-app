@@ -6,13 +6,13 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { sidebarLinks } from "@/constants";
+import { sidebarLinks } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
-import { useUserStore } from "@/state/users";
+import { useUserStore } from "@/data/users";
 import { signout } from "@/actions/firebase.action";
 
 const MobileNav = () => {

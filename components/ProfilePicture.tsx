@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useUserStore } from "@/state/users";
+import { useUserStore } from "@/data/users";
 import { usePathname } from "next/navigation";
 
 const ProfilePicture = ({ profile }: { profile?: boolean }) => {

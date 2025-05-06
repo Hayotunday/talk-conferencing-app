@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useUserStore } from "@/state/users";
+import { useUserStore } from "@/data/users";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import ProfileModal from "./ProfileModal";

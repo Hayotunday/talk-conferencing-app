@@ -4,7 +4,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useToast } from "./ui/use-toast";
 import { Input } from "./ui/input";
-import { userInterface, useUserStore } from "@/state/users";
+import { userInterface, useUserStore } from "@/data/users";
 import { Button } from "./ui/button";
 import { isBase64Image } from "@/lib/utils";
 import ImageInput from "./ImageInput";

@@ -9,7 +9,7 @@ import { useToast } from "./ui/use-toast";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { registerWithEmailAndPassword } from "@/actions/firebase.action";
-import { useUserStore, userInterface } from "@/state/users";
+import { useUserStore, userInterface } from "@/data/users";
 import Image from "next/image";
 import { removeFirstLast } from "@/lib/utils";
 

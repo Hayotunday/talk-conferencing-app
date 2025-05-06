@@ -27,7 +27,7 @@ app.prepare().then(() => {
   io.on("connection", (socket) => {
     console.log("New client connected:", socket.id);
 
-    socket.on("join-room", ({ roomId, userId }) => {
+    socket.on("join-room", ({ roomId, userId,username }) => {
       // Initialize room if it doesn't exist
       if (!rooms[roomId]) {
         rooms[roomId] = {
@@ -41,7 +41,7 @@ app.prepare().then(() => {
         rooms[roomId].users.push({
           userId,
           socketId: socket.id,
-          admitted: true,
+          username
         });
       }
 
@@ -52,42 +52,41 @@ app.prepare().then(() => {
       console.log(`Users in room ${roomId}:`, usersInRoom);
 
       // Notify existing users about new participant
-      socket.to(roomId).emit("user-joined", { userId, socketId: socket.id });
-
-      // Send existing participants to the new user
-      const existingUsers = rooms[roomId].users.filter(
-        (user) => user.userId !== userId
-      );
-      socket.emit("existing-users", existingUsers);
+      socket
+        .to(roomId)
+        .emit("user-joined", { userId, socketId: socket.id, username });
+      io.to(socket.id).emit("join-room", { userId, socketId: socket.id, username });
 
       socket.on("disconnect", () => {
         rooms[roomId].users = rooms[roomId].users.filter(
           (user) => user.userId !== userId
         );
         socket.to(roomId).emit("user-left", userId);
-        console.log(`User ${userId} left room ${roomId}`);
+        console.log(
+          `User ${userId} left room ${roomId}, socketId:${socket.id}`
+        );
       });
     });
 
-    // WebRTC signaling handlers
-    socket.on("offer", (data) => {
-      socket.to(data.target).emit("offer", {
-        fromId: socket.id,
-        offer: data.offer,
-      });
+    socket.on("offer", ({ to, offer, fromAppUserId, fromUsername }) => {
+      socket
+        .to(to)
+        .emit("offer", {
+          offer,
+          fromSocketId: socket.id,
+          fromAppUserId,
+          fromUsername,
+        });
     });
 
-    socket.on("answer", (data) => {
-      socket.to(data.target).emit("answer", {
-        fromId: socket.id,
-        answer: data.answer,
-      });
+    socket.on("answer", ({ to, answer }) => {
+      socket.to(to).emit("answer", { answer, fromSocketId: socket.id });
     });
 
-    socket.on("ice-candidate", (data) => {
-      socket.to(data.target).emit("ice-candidate", {
-        fromId: socket.id,
-        candidate: data.candidate,
+    socket.on("ice-candidate", ({ to, candidate }) => {
+      socket.to(to).emit("ice-candidate", {
+        candidate,
+        fromSocketId: socket.id,
       });
     });
 

@@ -8,7 +8,7 @@ import { Input } from "./ui/input";
 import { useToast } from "./ui/use-toast";
 import { FcGoogle } from "react-icons/fc";
 import { FaCaretRight, FaEye, FaEyeSlash } from "react-icons/fa";
-import { useUserStore, userInterface } from "@/state/users";
+import { useUserStore, userInterface } from "@/data/users";
 import { loginWithEmailAndPassword } from "@/actions/firebase.action";
 import Image from "next/image";
 import { removeFirstLast } from "@/lib/utils";
