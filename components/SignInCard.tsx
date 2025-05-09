@@ -180,7 +180,7 @@ const SignInCard = () => {
 
       <div className="w-full p-4">
         <p className="text-center text-slate-400">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href={signUpUrl()} className="text-blue-1">
             Sign up
           </Link>
